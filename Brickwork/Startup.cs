@@ -71,8 +71,8 @@ namespace Brickwork
                     // here we are at the final index of the area and we add the last 2 numbers
                     if (col == firstLayer.GetLength(1) - 1)
                     {
-                        result.Append(currentRowCol1);
-                        secondRowSb.Append(nextRowCol1);
+                        result.Append($"|{currentRowCol1}|");
+                        secondRowSb.Append($"|{nextRowCol1}|");
                         break;
                     }
 
@@ -152,7 +152,9 @@ namespace Brickwork
                     // the number at the next row with col + 1
                     var nextRowCol2 = area[row + 1, col + 1];
 
-                    if (currentRowCol1 == currentRowCol2 && nextRowCol1 == nextRowCol2)
+                    var isBrick = CheckForBrick(currentRowCol1, currentRowCol2, nextRowCol1, nextRowCol2);
+
+                    if (isBrick)
                     {
                         numbers.Push(currentRowCol1);
                         numbers.Push(currentRowCol2);
@@ -214,12 +216,12 @@ namespace Brickwork
         {
             if (m > 100 || n > 100)
             {
-                throw new ArgumentException(GlobalExceptions.InvalidRowsOrColsNumber);
+                throw new ArgumentException(GlobalExceptions.ExceededRowsOrColsNumber);
             }
 
-            if (n % 2 != 0)
+            if (n % 2 != 0 || m % 2 != 0)
             {
-                throw new ArgumentException(GlobalExceptions.InvalidRowsNumber);
+                throw new ArgumentException(GlobalExceptions.InvalidRowsOrColsNumber);
             }
         }
     }
