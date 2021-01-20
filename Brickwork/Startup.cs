@@ -121,7 +121,7 @@ namespace Brickwork
             Console.WriteLine(result.ToString());
         }
 
-        private static Stack AddBrickworkNumbers(byte[,] area)
+        private static Stack AddBrickworkNumbers(int[,] area)
         {
             // storing the consecutive numbers from Layer 1
             var numbers = new Stack();
@@ -180,17 +180,29 @@ namespace Brickwork
             return numbers;
         }
 
-        private static byte[,] BuildFirstLayer(int n, int m)
+        private static int[,] BuildFirstLayer(int n, int m)
         {
-            var area = new byte[n, m];
+            var area = new int[n, m];
 
             for (int row = 0; row < area.GetLength(0); row++)
             {
                 // the input numbers we add for each row of the area
                 var numbersToAdd = Console.ReadLine()
                     .Split(' ', StringSplitOptions.RemoveEmptyEntries)
-                    .Select(byte.Parse)
+                    .Select(int.Parse)
                     .ToArray();
+
+                if(numbersToAdd.Length > m)
+                {
+                    Console.WriteLine(GlobalExceptions.NumbersOnRowExceeded);
+                    Environment.Exit(-1);
+                }
+
+                if(numbersToAdd.Any(x => x > m / 2) || numbersToAdd.Any(x => x < 0))
+                {
+                    Console.WriteLine(GlobalExceptions.InvalidNumbersCount, row);
+                    Environment.Exit(-1);
+                }
 
                 // this array adds the numbers to the correct positions in the area
                 for (int col = 0; col < area.GetLength(1); col++)
