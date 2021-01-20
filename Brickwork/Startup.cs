@@ -198,7 +198,10 @@ namespace Brickwork
                     Environment.Exit(-1);
                 }
 
-                if(numbersToAdd.Any(x => x > m / 2) || numbersToAdd.Any(x => x < 0))
+                var maxNumber = (n + m) / 2;
+                var minNumber = 0;
+
+                if(numbersToAdd.Any(x => x > maxNumber) || numbersToAdd.Any(x => x < minNumber))
                 {
                     Console.WriteLine(GlobalExceptions.InvalidNumbersCount, row);
                     Environment.Exit(-1);
